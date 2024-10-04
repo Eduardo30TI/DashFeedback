@@ -12,7 +12,7 @@ import os
 from getpass import getpass
 
 if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("AIzaSyDkQsTLQe3Y6lHyFzy5Yq_Nr7tJaq2Zdjg")
+    os.environ["GOOGLE_API_KEY"] = getpass("AIzaSyDkQsTLQe3Y6lHyFzy5Yq_Nr7tJaq2Zdjg")
 
 load_dotenv()
 
