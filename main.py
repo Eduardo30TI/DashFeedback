@@ -9,7 +9,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
-from getpass import getpass
+from getpass4 import getpass
 
 if "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = getpass("AIzaSyDkQsTLQe3Y6lHyFzy5Yq_Nr7tJaq2Zdjg")
