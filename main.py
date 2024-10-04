@@ -4,6 +4,15 @@ import plotly.express as px
 import pandas as pd
 from datetime import datetime
 import plotly.express as px
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
+import os
+
+os.environ['GOOGLE_API_KEY']='AIzaSyDkQsTLQe3Y6lHyFzy5Yq_Nr7tJaq2Zdjg'
+
+load_dotenv()
 
 st.set_page_config(page_title='Pós Venda',layout='wide')
 
@@ -14,6 +23,30 @@ class Dash:
     def __init__(self) -> None:
 
         self.url='https://docs.google.com/spreadsheets/d/1JwUHULZfwLiJMUMtPePlB2vFZY1NaUbzzJNRqqovFl8/edit?usp=sharing'
+
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-pro",
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,
+            # other params...
+        )
+
+        self.template="""
+
+        você é um analista de atendimento e tem como objetivo identificar padrão de melhorias e de performace com base nas informações apresentadas abaixo:
+
+        {tabela}
+
+        E com base nisso me dar insights aonde preciso melhorar minha atuação com o cliente.
+
+        """
+
+        self.prompt=PromptTemplate.from_template(self.template)
+        self.parser=StrOutputParser()
+
+        self.chain=self.prompt|self.llm|self.parser
 
         pass
 
@@ -104,6 +137,11 @@ class Dash:
 
                 pass
 
+            
+            st.title('Insights')
+            st.markdown('----')
+            response=self.chain.invoke(df)
+            st.caption(response)
 
             temp_df=df.groupby(['ID Mês','Mês'],as_index=False).agg({'Carimbo de data/hora':'count'})
             temp_df.rename(columns={'Carimbo de data/hora':'Avaliação'},inplace=True)
