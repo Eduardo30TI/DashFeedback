@@ -62,6 +62,7 @@ class Dash:
             st.subheader('Pesquisa de satisfação')
             st.markdown('----')
 
+
             with st.sidebar:
 
                 st.subheader('Menu')
