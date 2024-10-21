@@ -16,3 +16,4 @@ streamlit==1.38.0
 XlsxWriter==3.1.9
 openpyxl==3.1.0
 numpy==1.26.4
+python-dotenv==1.0.1
